@@ -7,6 +7,7 @@ function WeatherCast() {
   const [input, setInput] = useState('');
   const [weatherData, setWeatherData] = useState<OpenWeatherProps>()
   const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   const toReadableDate = () => {
     const months = [
@@ -41,6 +42,7 @@ function WeatherCast() {
 
   const citySearch = async (event: any) => {
     if (event.key === 'Enter') {
+      setIsError(false)
       setIsLoading(true)
       event.preventDefault();
       setInput('');
@@ -57,7 +59,15 @@ function WeatherCast() {
         .then((res) => {
           setWeatherData(res.data)
           setIsLoading(false)
-        });
+        })
+        .catch(() => {
+            setIsLoading(false)
+            setIsError(true)
+
+            setTimeout(
+              () => setIsError(false), 3000
+            );
+          });
     }
   };
 
@@ -78,6 +88,12 @@ function WeatherCast() {
         
         {isLoading && (
             <div className="spinner" />
+        )}
+
+        {isError && (
+          <div className="error-message">
+            city not found
+          </div>
         )}
       </div>
 
