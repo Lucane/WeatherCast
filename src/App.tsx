@@ -6,6 +6,7 @@ import { OpenWeatherProps } from './interfaces/OpenWeather';
 function WeatherCast() {
   const [input, setInput] = useState('');
   const [weatherData, setWeatherData] = useState<OpenWeatherProps>()
+  const [isLoading, setIsLoading] = useState(false)
 
   const toReadableDate = () => {
     const months = [
@@ -40,6 +41,7 @@ function WeatherCast() {
 
   const citySearch = async (event: any) => {
     if (event.key === 'Enter') {
+      setIsLoading(true)
       event.preventDefault();
       setInput('');
       const url = 'https://api.openweathermap.org/data/2.5/weather';
@@ -54,6 +56,7 @@ function WeatherCast() {
         })
         .then((res) => {
           setWeatherData(res.data)
+          setIsLoading(false)
         });
     }
   };
@@ -72,6 +75,10 @@ function WeatherCast() {
           onChange={(event) => setInput(event.target.value)}
           onKeyDown={citySearch}
         />
+        
+        {isLoading && (
+            <div className="spinner" />
+        )}
       </div>
 
       {weatherData && weatherData.main && (

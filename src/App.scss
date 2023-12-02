@@ -98,3 +98,33 @@ body {
 .deg {
 	font-size: 1.3rem;
 }
+
+.spinner {
+	$spinner-size: 15px;
+	width: $spinner-size;
+	height: $spinner-size;
+
+	display: inline-block;
+	position: absolute;
+	right: 40px;
+	border-radius: 50%;
+	animation: transitionSpinner .5s linear infinite;
+	
+	border: 3px solid rgba(180, 75, 125, 0.2);
+	border-top-color: rgb(180 75 125);
+}
+
+@keyframes transitionSpinner {
+	0% {
+		transform: rotate(0deg)
+	}
+
+	to {
+		transform: rotate(360deg)
+	}
+}
+
+.search-bar {
+	display: flex;
+	align-items: center;
+}
