@@ -2,6 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import './App.scss';
 import { OpenWeatherProps } from './interfaces/OpenWeather';
+import WindIcon from "./assets/windy.svg"
+import HumidityIcon from "./assets/rain-drop.svg"
 
 function WeatherCast() {
   const [input, setInput] = useState('');
@@ -115,6 +117,26 @@ function WeatherCast() {
             />
             {Math.round(weatherData.main.temp)}
             <sup className="deg">&nbsp;°C</sup>
+          </div>
+          
+          <div className='weather-description'>
+            {weatherData.weather[0].description.toUpperCase()}
+          </div>
+          
+          <div className='weather-conditions'>
+            <div className='feels-like'>
+                feels like {Math.round(weatherData.main.feels_like)} °C
+            </div>
+
+            <div className='wind-speed'>
+                <img src={WindIcon} alt='Wind speed' className='wind-speed-icon' />
+                {Math.round(weatherData.wind.speed)} m/s
+            </div>
+
+            <div className='humidity'>
+                <img src={HumidityIcon} alt='Humidity' className='humidity-icon' />
+                {weatherData.main.humidity} %
+            </div>
           </div>
         </div>
       )}

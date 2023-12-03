@@ -72,7 +72,6 @@ body {
 .city-name {
 	font-size: 1.5rem;
 	color: $text-color;
-	margin-bottom: 8px;
 	display: flex;
 	justify-content: center;
 }
@@ -165,4 +164,27 @@ body {
 	100% {
 		opacity: 0%;
 	}
+}
+
+.weather-description {
+    display: flex;
+	justify-content: center;
+	align-items: center;
+    margin-top: -20px;
+    margin-bottom: 30px;
+	font-size: 0.9rem;
+}
+
+.weather-conditions {
+	font-weight: 500;
+	color: $text-color;
+	margin-top: 20px;
+	display: flex;
+	justify-content: space-evenly;
+
+    img {
+        width: 20px;
+        vertical-align: middle;
+        margin-bottom: 5px;
+    }
 }
