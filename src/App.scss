@@ -194,7 +194,7 @@ body {
 .expander {
     animation: expandAnimation 1s cubic-bezier(0.55, 0, 0, 1.3);
 	overflow: hidden;
-	height: 300px;
+	height: 250px;
 }
 
 @keyframes expandAnimation {
@@ -203,7 +203,7 @@ body {
 	}
 
 	to {
-		height: 300px;
+		height: 250px;
 	}
 
 }
