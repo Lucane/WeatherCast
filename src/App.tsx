@@ -108,7 +108,7 @@ function WeatherCast() {
           </div>
           <div className="icon-temp">
             <img
-              className=""
+              draggable="false"
               src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
               alt={weatherData.weather[0].description}
             />
@@ -126,12 +126,12 @@ function WeatherCast() {
             </div>
 
             <div className='wind-speed'>
-                <img src={WindIcon} alt='Wind speed' className='wind-speed-icon' />
+                <img src={WindIcon} draggable="false" alt='Wind speed' className='wind-speed-icon' />
                 {Math.round(weatherData.wind.speed)} m/s
             </div>
 
             <div className='humidity'>
-                <img src={HumidityIcon} alt='Humidity' className='humidity-icon' />
+                <img src={HumidityIcon} draggable="false" alt='Humidity' className='humidity-icon' />
                 {weatherData.main.humidity} %
             </div>
           </div>

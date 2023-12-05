@@ -1,6 +1,6 @@
 $text-color: rgb(255, 255, 255);
 
-.noselect {
+@mixin noselect {
     -webkit-user-select: none;
     /* Safari */
     -khtml-user-select: none;
@@ -48,6 +48,10 @@ body {
 	backdrop-filter: blur(4px);
 	border-radius: 10px;
 	border: 1px solid rgba(255, 255, 255, 0.18);
+	
+	> :not(.search-bar){
+		@include noselect;
+	}
 }
 
 .city-search {
