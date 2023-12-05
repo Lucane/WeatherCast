@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 import './App.scss';
 import { OpenWeatherProps } from './interfaces/OpenWeather';
 import WindIcon from "./assets/windy.svg"
@@ -44,32 +43,26 @@ function WeatherCast() {
 
   const citySearch = async (event: any) => {
     if (event.key === 'Enter') {
+      event.preventDefault();
       setIsError(false)
       setIsLoading(true)
-      event.preventDefault();
       setInput('');
-      const url = 'https://api.openweathermap.org/data/2.5/weather';
-      const api_key = '***REMOVED***';
-      await axios
-        .get(url, {
-          params: {
-            q: input,
-            units: 'metric',
-            appid: api_key,
-          },
-        })
-        .then((res) => {
-          setWeatherData(res.data)
-          setIsLoading(false)
-        })
-        .catch(() => {
-            setIsLoading(false)
-            setIsError(true)
 
-            setTimeout(
-              () => setIsError(false), 3000
-            );
-          });
+      await fetch(`/api/fetch-weather?input=${input}`)
+        .then((res) => res.json())
+        .then((res) => {
+          setIsLoading(false)
+          console.log(res)
+            if (res.cod === 200) {
+              setWeatherData(res)
+            } else {
+              setIsError(true)
+
+              setTimeout(
+                () => setIsError(false), 3000
+              );
+            }
+        })
     }
   };
 
