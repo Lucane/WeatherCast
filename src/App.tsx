@@ -101,9 +101,7 @@ function WeatherCast() {
       {weatherData && weatherData.main && (
         <div className='expander'>
           <div className="city-name">
-            <h2>
               {weatherData.name}, {weatherData.sys.country}
-            </h2>
           </div>
           <div className="date">
             {toReadableDate()}
