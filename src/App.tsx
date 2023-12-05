@@ -74,7 +74,7 @@ function WeatherCast() {
 
   return (
     <div className="container">
-      <h1 className="heading">WeatherCast</h1>
+      <div className="heading">WeatherCast</div>
       <div className="search-bar">
         <input
           autoFocus

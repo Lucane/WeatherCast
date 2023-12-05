@@ -31,7 +31,10 @@ body {
 	-webkit-background-clip: text;
 	display: flex;
 	justify-content: center;
-	margin-top: 0;
+	vertical-align: top;
+	font-size: 3.2rem;
+	margin-top: 10px;
+	align-items: baseline;
 }
 
 .container {
