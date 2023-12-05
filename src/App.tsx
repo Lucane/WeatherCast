@@ -47,7 +47,7 @@ function WeatherCast() {
   const citySearch = async (event: any) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      setError({errorMessage: '', displayError: false})
+      setError({ errorMessage: '', displayError: false })
       setIsLoading(true)
       setInput('');
 
@@ -56,18 +56,18 @@ function WeatherCast() {
         .then((res) => {
           setIsLoading(false)
           console.log(res)
-            if (res.cod === 200) {
-              setWeatherData(res)
-            } else {
-              setError({
-                displayError: true,
-                errorMessage: res.message.toLowerCase()
-              })
+          if (res.cod === 200) {
+            setWeatherData(res)
+          } else {
+            setError({
+              displayError: true,
+              errorMessage: res.message.toLowerCase()
+            })
 
-              setTimeout(
-                () => setError({errorMessage: '', displayError: false}), 3000
-              );
-            }
+            setTimeout(
+              () => setError({ errorMessage: '', displayError: false }), 3000
+            );
+          }
         })
     }
   };
@@ -86,9 +86,9 @@ function WeatherCast() {
           onChange={(event) => setInput(event.target.value)}
           onKeyDown={citySearch}
         />
-        
+
         {isLoading && (
-            <div className="spinner" />
+          <div className="spinner" />
         )}
 
         {error.displayError && (
@@ -101,7 +101,7 @@ function WeatherCast() {
       {weatherData && weatherData.main && (
         <div className='expander'>
           <div className="city-name">
-              {weatherData.name}, {weatherData.sys.country}
+            {weatherData.name}, {weatherData.sys.country}
           </div>
           <div className="date">
             {toReadableDate()}
@@ -115,24 +115,24 @@ function WeatherCast() {
             {Math.round(weatherData.main.temp)}
             <sup className="deg">&nbsp;°C</sup>
           </div>
-          
+
           <div className='weather-description'>
             {weatherData.weather[0].description.toUpperCase()}
           </div>
-          
+
           <div className='weather-conditions'>
             <div className='feels-like'>
-                feels like {Math.round(weatherData.main.feels_like)} °C
+              feels like {Math.round(weatherData.main.feels_like)} °C
             </div>
 
             <div className='wind-speed'>
-                <img src={WindIcon} draggable="false" alt='Wind speed' className='wind-speed-icon' />
-                {Math.round(weatherData.wind.speed)} m/s
+              <img src={WindIcon} draggable="false" alt='Wind speed' className='wind-speed-icon' />
+              {Math.round(weatherData.wind.speed)} m/s
             </div>
 
             <div className='humidity'>
-                <img src={HumidityIcon} draggable="false" alt='Humidity' className='humidity-icon' />
-                {weatherData.main.humidity} %
+              <img src={HumidityIcon} draggable="false" alt='Humidity' className='humidity-icon' />
+              {weatherData.main.humidity} %
             </div>
           </div>
         </div>
