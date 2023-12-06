@@ -13,17 +13,6 @@ $text-color: rgb(255, 255, 255);
 	/* Non-prefixed version, supported by Chrome, Edge, Opera and Firefox */
 }
 
-html {
-	background: url(assets/background.jpg) no-repeat bottom;
-	background-size: cover;
-	display: grid;
-	place-items: center;
-}
-
-body {
-	font-family: 'Open Sans', sans-serif;
-}
-
 .heading {
 	background-image: linear-gradient(to right, rgb(204, 111, 155), rgb(85, 93, 201));
 	color: transparent;
@@ -33,7 +22,6 @@ body {
 	justify-content: center;
 	vertical-align: top;
 	font-size: 3.2rem;
-	margin-top: 10px;
 	align-items: baseline;
 }
 
