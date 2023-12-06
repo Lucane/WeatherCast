@@ -10,8 +10,8 @@ function WeatherCast() {
   const [weatherData, setWeatherData] = useState<OpenWeatherProps>()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState({
-    displayError: false,
-    errorMessage: ''
+    active: false,
+    message: ''
   })
 
   const toReadableDate = () => {
@@ -45,10 +45,25 @@ function WeatherCast() {
     return date;
   };
 
+  const showError = async (errorMessage: string) => {
+    setError({
+      active: true,
+      message: errorMessage.toLowerCase()
+    })
+
+    setTimeout(
+      () => setError({ message: '', active: false }), 3000
+    );
+  }
+
+  const clearError = async () => {
+    setError({ message: '', active: false })
+  }
+
   const citySearch = async (event: any) => {
     if (event.key === 'Enter' || event.type === 'click') {
       event.preventDefault();
-      setError({ errorMessage: '', displayError: false })
+      clearError()
       setIsLoading(true)
       setInput('');
 
@@ -60,14 +75,7 @@ function WeatherCast() {
           if (res.cod === 200) {
             setWeatherData(res)
           } else {
-            setError({
-              displayError: true,
-              errorMessage: res.message.toLowerCase()
-            })
-
-            setTimeout(
-              () => setError({ errorMessage: '', displayError: false }), 3000
-            );
+            showError(res.message);
           }
         })
     }
@@ -88,7 +96,7 @@ function WeatherCast() {
           onKeyDown={citySearch}
         />
 
-        {(isLoading && !error.displayError) ? (
+        {(isLoading && !error.active) ? (
           <div className="spinner" />
         ) : (
           <button className='search-button' onClick={citySearch} >
@@ -97,9 +105,9 @@ function WeatherCast() {
         )
         }
 
-        {error.displayError && (
+        {error.active && (
           <div className="error-message">
-            {error.errorMessage}
+            {error.message}
           </div>
         )}
       </div>
