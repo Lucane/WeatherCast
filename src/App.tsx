@@ -71,6 +71,11 @@ function WeatherCast() {
 
   const citySearch = async (event: any) => {
     if (event.key === 'Enter' || event.type === 'click') {
+      if (input.length === 0) {
+        showError("input can't be blank")
+        return
+      }
+
       event.preventDefault();
       clearError()
       setIsLoading(true)
