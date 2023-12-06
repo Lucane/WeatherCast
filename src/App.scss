@@ -210,3 +210,38 @@ body {
 	}
 
 }
+
+.search-button {
+	display: flex;
+	position: absolute;
+	align-items: center;
+	background-color: transparent;
+	border: none;
+
+	padding: 0;
+	right: 32px;
+	width: 30px;
+	height: 37px;
+	border-radius: 0;
+
+	&:focus {
+		outline: none;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	&:hover {
+		>svg {
+			fill: #fafafa;
+			scale: 70%;
+			opacity: 1;
+		}
+	}
+
+	>svg {
+		fill: #808080;
+		scale: 60%;
+		opacity: 50%;
+		transition: all 200ms ease;
+		transition-property: fill, scale, opacity;
+	}
+}

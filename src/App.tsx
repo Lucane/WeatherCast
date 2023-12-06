@@ -3,6 +3,7 @@ import './App.scss';
 import { OpenWeatherProps } from './interfaces/OpenWeather';
 import WindIcon from "./assets/windy.svg"
 import HumidityIcon from "./assets/rain-drop.svg"
+import SearchIcon from './assets/search-icon.svg?react';
 
 function WeatherCast() {
   const [input, setInput] = useState('');
@@ -45,7 +46,7 @@ function WeatherCast() {
   };
 
   const citySearch = async (event: any) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' || event.type === 'click') {
       event.preventDefault();
       setError({ errorMessage: '', displayError: false })
       setIsLoading(true)
@@ -87,9 +88,14 @@ function WeatherCast() {
           onKeyDown={citySearch}
         />
 
-        {isLoading && (
+        {(isLoading && !error.displayError) ? (
           <div className="spinner" />
-        )}
+        ) : (
+          <button className='search-button' onClick={citySearch} >
+            <SearchIcon />
+          </button>
+        )
+        }
 
         {error.displayError && (
           <div className="error-message">
