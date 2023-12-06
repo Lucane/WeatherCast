@@ -77,6 +77,7 @@ function WeatherCast() {
       }
 
       event.preventDefault();
+      event.target.blur();      // hide the mobile keyboard
       clearError()
       setIsLoading(true)
       setInput('');
