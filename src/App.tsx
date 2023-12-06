@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import './App.scss';
 import { OpenWeatherProps } from './interfaces/OpenWeather';
 import WindIcon from "./assets/windy.svg"
@@ -9,6 +9,8 @@ function WeatherCast() {
   const [input, setInput] = useState('');
   const [weatherData, setWeatherData] = useState<OpenWeatherProps>()
   const [isLoading, setIsLoading] = useState(false)
+
+  const errorTimeoutRef = useRef<number | null>(null)
   const [error, setError] = useState({
     active: false,
     message: ''
@@ -46,18 +48,25 @@ function WeatherCast() {
   };
 
   const showError = async (errorMessage: string) => {
+    clearError();
+
     setError({
       active: true,
       message: errorMessage.toLowerCase()
     })
 
-    setTimeout(
-      () => setError({ message: '', active: false }), 3000
+    errorTimeoutRef.current = window.setTimeout(
+      () => {
+        clearError()
+      }, 3000
     );
   }
 
   const clearError = async () => {
-    setError({ message: '', active: false })
+    if (errorTimeoutRef.current) {
+      clearTimeout(errorTimeoutRef.current)
+      setError({ message: '', active: false })
+    }
   }
 
   const citySearch = async (event: any) => {
@@ -96,14 +105,13 @@ function WeatherCast() {
           onKeyDown={citySearch}
         />
 
-        {(isLoading && !error.active) ? (
+        {isLoading ? (
           <div className="spinner" />
         ) : (
           <button className='search-button' onClick={citySearch} >
             <SearchIcon />
           </button>
-        )
-        }
+        )}
 
         {error.active && (
           <div className="error-message">
