@@ -52,7 +52,7 @@ function WeatherCast() {
 
     setError({
       active: true,
-      message: errorMessage.toLowerCase()
+      message: errorMessage.toUpperCase()
     })
 
     errorTimeoutRef.current = window.setTimeout(
@@ -120,7 +120,7 @@ function WeatherCast() {
         )}
 
         {error.active && (
-          <div className="error-message">
+          <div className="error-message" onClick={clearError}>
             {error.message}
           </div>
         )}
