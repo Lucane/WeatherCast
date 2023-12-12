@@ -4,6 +4,7 @@ import { OpenWeatherProps } from './interfaces/OpenWeather';
 import WindIcon from "./assets/windy.svg"
 import HumidityIcon from "./assets/rain-drop.svg"
 import SearchIcon from './assets/search-icon.svg?react';
+import { getWeatherIconName } from './interfaces/WeatherIconMap';
 
 function WeatherCast() {
   const [input, setInput] = useState('');
@@ -86,7 +87,6 @@ function WeatherCast() {
         .then((res) => res.json())
         .then((res) => {
           setIsLoading(false)
-          console.log(res)
           if (res.cod === 200) {
             setWeatherData(res)
           } else {
@@ -137,7 +137,7 @@ function WeatherCast() {
           <div className="icon-temp">
             <img
               draggable="false"
-              src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+              src={`/weather-icons/${getWeatherIconName(weatherData.weather[0])}.svg`}
               alt={weatherData.weather[0].description}
             />
             {Math.round(weatherData.main.temp)}
