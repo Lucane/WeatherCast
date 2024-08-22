@@ -4,12 +4,18 @@ import { OpenWeatherProps } from './interfaces/OpenWeather';
 import WindIcon from "./assets/windy.svg"
 import HumidityIcon from "./assets/rain-drop.svg"
 import SearchIcon from './assets/search-icon.svg?react';
+import LocationIcon from './assets/location.svg?react';
+import LocationSearchingIcon from './assets/location-searching.svg?react';
+import LocationDisabledIcon from './assets/location-disabled.svg?react';
 import { getWeatherIconName } from './interfaces/WeatherIconMap';
+import { useLocationState, useLocationPermissionStatus, LocationPermissionStatus } from './hooks/Geolocation';
 
 function WeatherCast() {
   const [input, setInput] = useState('');
   const [weatherData, setWeatherData] = useState<OpenWeatherProps>()
   const [isLoading, setIsLoading] = useState(false)
+  const locationData = useLocationState()
+  const locationPermissionStatus = useLocationPermissionStatus()
 
   const errorTimeoutRef = useRef<number | null>(null)
   const [error, setError] = useState({
@@ -71,29 +77,45 @@ function WeatherCast() {
   }
 
   const citySearch = async (event: any) => {
-    if (event.key === 'Enter' || event.type === 'click') {
+    if (event.key !== 'Enter' && event.type !== 'click') {
+      return
+    }
+
+    event.preventDefault()
+    event.target.blur()      // hide the mobile keyboard
+    clearError()
+    setIsLoading(true)
+    setInput('')
+
+    let query = ''
+
+    if (['city-search', 'search-button'].includes(event.currentTarget.className)) {
       if (input.length === 0) {
         showError("input can't be blank")
+        setIsLoading(false)
         return
       }
+      query = `input=${input}`
 
-      event.preventDefault();
-      event.target.blur();      // hide the mobile keyboard
-      clearError()
-      setIsLoading(true)
-      setInput('');
-
-      await fetch(`/api/fetch-weather?input=${input}`)
-        .then((res) => res.json())
-        .then((res) => {
-          setIsLoading(false)
-          if (res.cod === 200) {
-            setWeatherData(res)
-          } else {
-            showError(res.message);
-          }
-        })
+    } else if (event.currentTarget.className === 'geo-button') {
+      if (!locationData || !locationData.latitude || !locationData.longitude || locationData.error) {
+        showError(locationData.error || "location unavailable")
+        setIsLoading(false)
+        return
+      }
+      query = `latitude=${locationData.latitude}&longitude=${locationData.longitude}`
     }
+
+    await fetch(`/api/fetch-weather?${query}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setIsLoading(false)
+        if (res.cod === 200) {
+          setWeatherData(res)
+        } else {
+          showError(res.message)
+        }
+      })
   };
 
   return (
@@ -118,6 +140,20 @@ function WeatherCast() {
             <SearchIcon />
           </button>
         )}
+
+        <button className='geo-button' disabled={isLoading} onClick={citySearch}>
+          {!isLoading && locationPermissionStatus === LocationPermissionStatus.GRANTED && (
+            <LocationIcon className='location-icon' />
+          )}
+
+          {isLoading && locationPermissionStatus === LocationPermissionStatus.GRANTED && (
+            <LocationSearchingIcon className='location-icon' />
+          )}
+
+          {locationPermissionStatus !== LocationPermissionStatus.GRANTED && (
+            <LocationDisabledIcon className='location-disabled-icon' />
+          )}
+        </button>
 
         {error.active && (
           <div className="error-message" onClick={clearError}>

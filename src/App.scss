@@ -208,7 +208,7 @@ $text-color: rgb(255, 255, 255);
 
 }
 
-.search-button {
+@mixin search-button-styles($rightOffset) {
 	display: flex;
 	position: absolute;
 	align-items: center;
@@ -216,10 +216,14 @@ $text-color: rgb(255, 255, 255);
 	border: none;
 
 	padding: 0;
-	right: 32px;
+	right: $rightOffset;
 	width: 30px;
 	height: 37px;
 	border-radius: 0;
+
+	&:disabled {
+		pointer-events: none;
+	}
 
 	&:focus {
 		outline: none;
@@ -235,10 +239,57 @@ $text-color: rgb(255, 255, 255);
 	}
 
 	>svg {
+		transition: all 200ms ease;
+		transition-property: fill, scale, opacity;
+	}
+}
+
+.search-button {
+	@include search-button-styles($rightOffset: 32px);
+
+	&:hover {
+		>svg {
+			fill: #fafafa;
+			scale: 70%;
+			opacity: 1;
+		}
+	}
+
+	>svg {
 		fill: #808080;
 		scale: 60%;
 		opacity: 50%;
-		transition: all 200ms ease;
-		transition-property: fill, scale, opacity;
+	}
+}
+
+.geo-button {
+	@include search-button-styles($rightOffset: -3px);
+
+	&:hover {
+		>svg {
+			scale: 100%;
+			opacity: 1;
+
+			&.location-icon {
+				fill: #fafafa;
+			}
+
+			&.location-disabled-icon {
+				fill: #c06363;
+			}
+		}
+	}
+
+	>svg {
+		scale: 90%;
+		opacity: 50%;
+
+		&.location-icon {
+			fill: #808080;
+		}
+
+		&.location-disabled-icon {
+			fill: #c57979;
+		}
 	}
 }
